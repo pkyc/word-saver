@@ -85,7 +85,6 @@
     </style>
 </head>
 <body>
-    <h1>Price Tracker</h1>
     <form id="itemForm" onsubmit="saveData(event)">
         <label for="item_name">Item Name:</label>
         <input type="text" id="item_name" name="item_name" required>
@@ -110,11 +109,19 @@
     </form>
 
     <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+        });
+
         async function saveData(event) {
             event.preventDefault();
             
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData.entries());
+
+            data.price = parseFloat(data.price.replace(/[^0-9.-]+/g,""));
+            data.unit_price = parseFloat(data.unit_price.replace(/[^0-9.-]+/g,""));
 
             try {
                 const response = await fetch('/api/save-item', {
