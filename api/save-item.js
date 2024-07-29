@@ -1,6 +1,10 @@
+const express = require('express');
 const { Pool } = require('pg');
+const cors = require('cors');
+
 require('dotenv').config();
 
+const app = express();
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -11,6 +15,11 @@ const pool = new Pool({
         rejectUnauthorized: false
     }
 });
+
+app.use(cors());
+app.use(express.json());
+app.use(express.static('public'));
+
 
 module.exports = async (req, res) => {
     if (req.method === 'POST') {
