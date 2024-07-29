@@ -28,6 +28,23 @@
             }
         }
     </script>
+    <style>
+        .autocomplete-suggestions {
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            z-index: 1000;
+            background: white;
+        }
+        .autocomplete-suggestion {
+            padding: 8px;
+            cursor: pointer;
+        }
+        .autocomplete-suggestion:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
     <h1>Price Tracker</h1>
@@ -41,16 +58,142 @@
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" name="quantity" required><br>
 
-        <label for="unit-price">Unit Price:</label>
-        <input type="number" step="0.01" id="unit-price" name="unit_price" required><br>
+        <label for="unit_price">Unit Price:</label>
+        <input type="number" id="unit_price" name="unit_price" step="0.01" readonly><br><br>
 
         <label for="merchandizer">Merchandizer:</label>
-        <input type="text" id="merchandizer" name="merchandizer" required><br>
+        <input type="text" id="merchandizer" name="merchandizer" autocomplete="off" required><br><br>
 
         <label for="date">Date of Add/Change:</label>
         <input type="date" id="date" name="date" required><br>
 
         <button type="submit">Save</button>
     </form>
+
+    <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+
+    <script>
+        document.getElementById('merchandizer').addEventListener('input', async function() {
+            const query = this.value;
+            if (query.length === 0) {
+                document.getElementById('autocomplete-suggestions').innerHTML = '';
+                return;
+            }
+
+            const response = await fetch(`/api/merchandizer-suggestions?query=${query}`);
+            const suggestions = await response.json();
+
+            const suggestionsDiv = document.getElementById('autocomplete-suggestions');
+            suggestionsDiv.innerHTML = suggestions.map(suggestion => 
+                `<div class="autocomplete-suggestion">${suggestion}</div>`
+            ).join('');
+
+            // Add event listeners for suggestions
+            suggestionsDiv.querySelectorAll('.autocomplete-suggestion').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.getElementById('merchandizer').value = this.textContent;
+                    suggestionsDiv.innerHTML = '';
+                });
+            });
+        });
+
+        document.getElementById('itemForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            try {
+                const response = await fetch('/api/save-item', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    alert('Item saved successfully!');
+                } else {
+                    alert('Error saving item');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error saving item');
+            }
+        });
+    </script>
+    
+    <script>
+        // Function to calculate and update the unit price
+        function updateUnitPrice() {
+            const price = parseFloat(document.getElementById('price').value) || 0;
+            const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+
+            if (quantity > 0) {
+                const unitPrice = price / quantity;
+                document.getElementById('unit_price').value = unitPrice.toFixed(2);
+            } else {
+                document.getElementById('unit_price').value = '';
+            }
+        }
+
+        // Add event listeners to calculate unit price when price or quantity changes
+        document.getElementById('price').addEventListener('input', updateUnitPrice);
+        document.getElementById('quantity').addEventListener('input', updateUnitPrice);
+
+        document.getElementById('merchandizer').addEventListener('input', async function() {
+            const query = this.value;
+            if (query.length === 0) {
+                document.getElementById('autocomplete-suggestions').innerHTML = '';
+                return;
+            }
+
+            const response = await fetch(`/api/merchandizer-suggestions?query=${query}`);
+            const suggestions = await response.json();
+
+            const suggestionsDiv = document.getElementById('autocomplete-suggestions');
+            suggestionsDiv.innerHTML = suggestions.map(suggestion => 
+                `<div class="autocomplete-suggestion">${suggestion}</div>`
+            ).join('');
+
+            // Add event listeners for suggestions
+            suggestionsDiv.querySelectorAll('.autocomplete-suggestion').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.getElementById('merchandizer').value = this.textContent;
+                    suggestionsDiv.innerHTML = '';
+                });
+            });
+        });
+
+        document.getElementById('itemForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            try {
+                const response = await fetch('/api/save-item', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    alert('Item saved successfully!');
+                } else {
+                    alert('Error saving item');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error saving item');
+            }
+        });
+    </script>
+    
 </body>
 </html>
