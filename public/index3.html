@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Price Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -20,7 +19,7 @@
             background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 400px;
             width: 100%;
             box-sizing: border-box;
@@ -28,39 +27,27 @@
         h1 {
             text-align: center;
             margin-bottom: 20px;
-            font-weight: 500;
-            color: #424242;
         }
         label {
             display: block;
             margin: 10px 0 5px;
-            font-weight: 500;
-            color: #424242;
         }
-        input, button {
+        input, select, button {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
-            font-size: 16px;
-        }
-        input:focus {
-            border-color: #6200ea;
-            outline: none;
-            box-shadow: 0 0 4px rgba(98, 0, 234, 0.2);
         }
         button {
-            background-color: #6200ea;
+            background-color: #007BFF;
             color: white;
             border: none;
             cursor: pointer;
-            font-weight: 500;
-            font-size: 16px;
         }
         button:hover {
-            background-color: #3700b3;
+            background-color: #0056b3;
         }
         .autocomplete-suggestions {
             border: 1px solid #ccc;
@@ -75,7 +62,7 @@
             cursor: pointer;
         }
         .autocomplete-suggestion:hover {
-            background-color: #eee;
+            background-color: #ddd;
         }
         @media (max-width: 600px) {
             form {
@@ -85,53 +72,32 @@
     </style>
 </head>
 <body>
-    <h1>Price Tracker</h1>
-    <form id="itemForm" onsubmit="saveData(event)">
+    <form id="itemForm">
         <label for="item_name">Item Name:</label>
-        <input type="text" id="item_name" name="item_name" required>
+        <input type="text" id="item_name" name="item_name" required><br>
 
         <label for="price">Price:</label>
-        <input type="number" step="0.01" id="price" name="price" required>
+        <input type="number" step="0.01" id="price" name="price" required><br>
 
         <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" required>
+        <input type="number" id="quantity" name="quantity" required><br>
 
         <label for="unit_price">Unit Price:</label>
-        <input type="number" id="unit_price" name="unit_price" step="0.01" readonly>
+        <input type="number" id="unit_price" name="unit_price" step="0.01" readonly><br>
 
         <label for="merchandizer">Merchandizer:</label>
-        <input type="text" id="merchandizer" name="merchandizer" autocomplete="off" required>
-        <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+        <input type="text" id="merchandizer" name="merchandizer" autocomplete="off" required><br>
 
         <label for="date">Date of Add/Change:</label>
-        <input type="date" id="date" name="date" required>
+        <input type="date" id="date" name="date" required><br>
 
         <button type="submit">Save</button>
     </form>
 
+    <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+
     <script>
-        async function saveData(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
-
-            try {
-                const response = await fetch('/api/save-item', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                const result = await response.text();
-                alert(result);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
+        // Function to calculate and update the unit price
         function updateUnitPrice() {
             const price = parseFloat(document.getElementById('price').value) || 0;
             const quantity = parseFloat(document.getElementById('quantity').value) || 0;
@@ -144,6 +110,7 @@
             }
         }
 
+        // Add event listeners to calculate unit price when price or quantity changes
         document.getElementById('price').addEventListener('input', updateUnitPrice);
         document.getElementById('quantity').addEventListener('input', updateUnitPrice);
 
@@ -162,12 +129,40 @@
                 `<div class="autocomplete-suggestion">${suggestion}</div>`
             ).join('');
 
+            // Add event listeners for suggestions
             suggestionsDiv.querySelectorAll('.autocomplete-suggestion').forEach(item => {
                 item.addEventListener('click', function() {
                     document.getElementById('merchandizer').value = this.textContent;
                     suggestionsDiv.innerHTML = '';
                 });
             });
+        });
+
+        document.getElementById('itemForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            try {
+                const response = await fetch('/api/save-item', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    alert('Item saved successfully!');
+                } else {
+                    alert('Error saving item');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error saving item');
+            }
         });
     </script>
 </body>
