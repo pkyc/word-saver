@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Saver</title>
+</head>
+<body>
+    <h1>Word Saver</h1>
+    <form id="word-form">
+        <label for="word">Enter a word:</label>
+        <input type="text" id="word" name="word" required>
+        <button type="submit">Save</button>
+    </form>
+    <script>
+        document.getElementById('word-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const word = document.getElementById('word').value;
+            const response = await fetch('/api/save-word', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ word })
+            });
+            if (response.ok) {
+                alert('Word saved!');
+            } else {
+                alert('Failed to save word.');
+            }
+        });
+    </script>
+</body>
+</html>
