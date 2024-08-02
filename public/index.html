@@ -134,10 +134,11 @@
                     body: JSON.stringify(data),
                 });
 
-                const result = await response.text();
-                alert(result);
+                const result = await response.json();
+                alert(result.message);
             } catch (error) {
                 console.error('Error:', error);
+                alert(`An error occurred: ${error.message}`);
             }
         }
 
@@ -180,20 +181,30 @@
                 return;
             }
 
-            const response = await fetch(`/api/merchandizer-suggestions?query=${query}`);
-            const suggestions = await response.json();
+            try {
+                const response = await fetch(`/api/merchandizer-suggestions?query=${query}`);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Error fetching data: ${errorText}`);
+                }
 
-            const suggestionsDiv = document.getElementById('autocomplete-suggestions');
-            suggestionsDiv.innerHTML = suggestions.map(suggestion => 
-                `<div class="autocomplete-suggestion">${suggestion}</div>`
-            ).join('');
+                const suggestions = await response.json();
+                const suggestionsDiv = document.getElementById('autocomplete-suggestions');
+                suggestionsDiv.innerHTML = suggestions.map(suggestion => 
+                    `<div class="autocomplete-suggestion">${suggestion}</div>`
+                ).join('');
 
-            suggestionsDiv.querySelectorAll('.autocomplete-suggestion').forEach(item => {
-                item.addEventListener('click', function() {
-                    document.getElementById('merchandizer').value = this.textContent;
-                    suggestionsDiv.innerHTML = '';
+                suggestionsDiv.querySelectorAll('.autocomplete-suggestion').forEach(item => {
+                    item.addEventListener('click', function() {
+                        document.getElementById('merchandizer').value = this.textContent;
+                        suggestionsDiv.innerHTML = '';
+                    });
                 });
-            });
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`An error occurred: ${error.message}`);
+            }
         });
     </script>
 </body>
