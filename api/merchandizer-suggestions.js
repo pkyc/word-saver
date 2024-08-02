@@ -15,11 +15,15 @@ const pool = new Pool({
 module.exports = async (req, res) => {
     if (req.method === 'GET') {
         const { query } = req.query;
+        const sqlQuery = 'SELECT DISTINCT merchandizer FROM items WHERE merchandizer ILIKE $1 LIMIT 10';
+        const values = [`%${query}%`];
+
+        console.log('Executing query:', sqlQuery);
+        console.log('With values:', values);
+
         try {
-            const result = await pool.query(
-                'SELECT DISTINCT merchandizer FROM items WHERE merchandizer ILIKE $1 LIMIT 10',
-                [`%${query}%`]
-            );
+            const result = await pool.query(sqlQuery, values);
+            console.log('Query result:', result.rows);
             res.status(200).json(result.rows.map(row => row.merchandizer));
         } catch (err) {
             console.error('Error fetching suggestions:', err.stack); // Log detailed error
