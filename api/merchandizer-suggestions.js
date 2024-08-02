@@ -22,8 +22,8 @@ module.exports = async (req, res) => {
             );
             res.status(200).json(result.rows.map(row => row.merchandizer));
         } catch (err) {
-            console.error('Error fetching suggestions:', err); // Log detailed error
-            res.status(500).json({ error: 'Error fetching suggestions' });
+            console.error('Error fetching suggestions:', err.stack); // Log detailed error
+            res.status(500).json({ error: 'Error fetching suggestions', details: err.message });
         }
     } else {
         res.status(405).json({ error: 'Method Not Allowed' });
