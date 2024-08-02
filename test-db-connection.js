@@ -35,7 +35,7 @@ async function testConnection() {
         if (lastRecordResult.rows.length > 0) {
             console.log('Last record added:', lastRecordResult.rows[0]);
         } else {
-            console.log('No records found in the items table.');
+            console.log('No records xxx found in the items table.');
         }
 
         process.exit(0);
