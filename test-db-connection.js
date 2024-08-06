@@ -40,7 +40,7 @@ async function testConnection() {
 
         process.exit(0);
     } catch (err) {
-        console.error('Error connecting to the database:', err.stack);
+        console.error('Erxror connecting to the database:', err.stack);
         process.exit(1);
     }
 }
