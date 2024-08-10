@@ -15,7 +15,7 @@ const pool = new Pool({
 module.exports = async (req, res) => {
     if (req.method === 'GET') {
         const { query } = req.query;
-        const sqlQuery = 'SELECT DISTINCT merchandizer FROM items WHERE merchandizer ILIKE $1 LIMIT 10';
+        const sqlQuery = 'SELECT DISTINCT merchandizer FROM merchant WHERE merchandizer ILIKE $1 LIMIT 10';
         const values = [`%${query}%`];
 
         console.log('Executing query:', sqlQuery);
