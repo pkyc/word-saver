@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
         } catch (err) {
             console.error('Error executing query:', err.message);
             console.error('Stack trace:', err.stack);
-            res.status(500).send('Error saving item');
+            res.status(500).send('Error saving item', err.message, err.stack);
         }
     } else {
         console.log('Method not allowed:', req.method);
