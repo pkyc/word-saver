@@ -46,5 +46,5 @@ jobs:
     
     - name: Debug secrets
       run: |
-      echo "DB_HOST: ${{ secrets.DB_HOST }}"
+        echo "DB_HOST: ${{ secrets.DB_HOST }}"
 
