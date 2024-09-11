@@ -1,9 +1,10 @@
-name: Deploy to Vercel
+name: deploy-to-vercel
 
 on:
   push:
     branches:
       - main
+workflow_dispatch:  # Manual trigger
 
 jobs:
   build:
