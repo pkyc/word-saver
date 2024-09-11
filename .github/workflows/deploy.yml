@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
     - name: Checkout code
       uses: actions/checkout@v2
 
@@ -32,6 +33,9 @@ jobs:
         echo DB_NAME=${{ secrets.DB_NAME }} >> .env
         echo DB_PORT=${{ secrets.DB_PORT }} >> .env
 
+    - name: Check .env
+      run: cat .env
+
     - name: Deploy to Vercel
       uses: amondnet/vercel-action@v20
       with:
@@ -39,3 +43,8 @@ jobs:
         vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
         working-directory: ./
+    
+    - name: Debug secrets
+      run: |
+      echo "DB_HOST: ${{ secrets.DB_HOST }}"
+
