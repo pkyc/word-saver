@@ -25,6 +25,11 @@ jobs:
     - name: Build project
       run: npm run build
 
+    - name: Print environment variable
+      run: | 
+        echo "The value of DB_HOST is $DB_HOST"
+        echo "The value of DB_NAME is $DB_NAME"
+
     - name: Set up .env
       run: |
         echo DB_USER=${{ secrets.DB_USER }} >> .env
