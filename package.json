@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test is specified\" && exit 1",
+    "test": "echo \"Error: no test is being specified\" && exit 1",
     "build": "echo 'No build step required'"
   },
   "keywords": [],
