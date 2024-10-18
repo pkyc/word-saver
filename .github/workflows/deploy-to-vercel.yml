@@ -40,14 +40,23 @@ jobs:
 
     - name: Check .env
       run: cat .env
-
-    - name: Deploy to Vercel
-      run: vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
-      env:
-        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     
     - name: Debug secrets
       run: |
         echo "DB_HOST: ${{ secrets.DB_HOST }}"
         echo "DB_NAME: ${{ secrets.DB_NAME }}"
+        
+  deploy:
+    runs-on: ubuntu-latest
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-args: '--prod'   # optional, for production deployment
+          org-id: ${{ secrets.VERCEL_ORG_ID }}
+          project-id: ${{ secrets.VERCEL_PROJECT_ID }}
