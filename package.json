@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test is being specified\" && exit 1",
-    "build": "echo 'No build step required'"
+    "build": "echo 'Starting build process...' && next build",
+    "start": "echo 'Starting app...' && next start"
   },
   "keywords": [],
   "author": "",
