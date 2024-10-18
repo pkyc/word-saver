@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "echo 'Starting build process...' && next build",
-    "start": "echo 'Starting app...' && next start"
+    "build": "echo 'Starting build process...' ",
+    "start": "echo 'Starting app...' "
   },
   "keywords": [],
   "author": "",
