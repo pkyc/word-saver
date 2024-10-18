@@ -93,132 +93,6 @@
             <!-- price in Canada type-->
             <label for="price">P rice:</label>
             <input type="text" id="price" onchange="calculateDollarAmount()" name="price" required>
-            
-            <script>
-
-                function calculateDollarAmount() {
-                    const numberInput = document.getElementById('price');
-                    let value = numberInput.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-
-                    if (value.length === 0) {
-                        numberInput.value = '0.00';
-                        return;
-                    }
-
-                    // Pad value with zeros if it's less than 3 digits
-                    while (value.length < 3) {
-                        value = '0' + value;
-                    }
-
-                    const dollars = value.slice(0, -2);
-                    const cents = value.slice(-2);
-                    const formattedValue = '$'+`${parseInt(dollars)}.${cents}`;
-
-                    numberInput.value = formattedValue;
-                }
-
-                // Add event listener for input change
-                document.getElementById('price').addEventListener('input', calculateDollarAmount);
-
-            </script>
-            
-            <script>
-                document.addEventListener('DOMContentLoaded', (event) => {
-                    const today = new Date().toISOString().split('T')[0];
-                    document.getElementById('date').value = today;
-                });
-    
-                async function saveData(event) {
-                    event.preventDefault();
-                    
-                    const formData = new FormData(event.target);
-                    const data = Object.fromEntries(formData.entries());
-    
-                    data.price = parseCurrency(data.price);
-                    data.unit_price = parseCurrency(data.unit_price);
-    
-                    try {
-                        const response = await fetch('/api/save-item', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(data),
-                        });
-    
-                        const result = await response.json();
-                        alert(result.message);
-                    } catch (error) {
-                        console.error('Error:', error);
-                        alert(`An error occurred: ${error.message}`);
-                    }
-                }
-    
-                function formatCurrency(value) {
-                    // Convert number to a string formatted as currency (CAD)
-                    return new Intl.NumberFormat('en-CA', { style: 'decimal', minimumFractionDigits: 2 }).format(value);
-                }
-    
-                function parseCurrency(value) {
-                    // Remove currency symbols and commas to parse number correctly
-                    return parseFloat(value.replace(/[^0-9.-]+/g, ""));
-                }
-    
-                function updateUnitPrice() {
-                    // Get values from input fields
-                    const price = parseCurrency(document.getElementById('price').value) || 0;
-                    const quantity = parseFloat(document.getElementById('quantity').value) || 0;
-    
-                    if (quantity > 0) {
-                        const unitPrice = price / quantity;
-                        document.getElementById('unit_price').value = formatCurrency(unitPrice);
-                    } else {
-                        document.getElementById('unit_price').value = '';
-                    }
-                }
-    
-                document.getElementById('price').addEventListener('input', function(event) {
-                    // Parse and format price as currency when input changes
-                    const parsedPrice = parseCurrency(this.value);
-                    this.value = formatCurrency(parsedPrice);
-                    updateUnitPrice();
-                });
-    
-                document.getElementById('quantity').addEventListener('input', updateUnitPrice);
-    
-                document.getElementById('merchandizer').addEventListener('input', async function() {
-                    const query = this.value;
-                    if (query.length === 0) {
-                        document.getElementById('autocomplete-suggestions').innerHTML = '';
-                        return;
-                    }
-    
-                    try {
-                        const response = await fetch(`/api/merchandizer-suggestions?query=${query}`);
-                        
-                        if (!response.ok) {
-                            const errorText = await response.text();
-                            throw new Error(`Error fetching data: ${errorText}`);
-                        }
-    
-                        const suggestions = await response.json();
-                        const suggestionsDiv = document.getElementById('autocomplete-suggestions');
-                        suggestionsDiv.innerHTML = suggestions.map(suggestion => 
-                            `<div class="autocomplete-suggestion">${suggestion}</div>`
-                        ).join('');
-    
-                        suggestionsDiv.querySelectorAll('.autocomplete-suggestion').forEach(item => {
-                            item.addEventListener('click', function() {
-                                document.getElementById('merchandizer').value = this.textContent;
-                                suggestionsDiv.innerHTML = '';
-                            });
-                        });
-                    } catch (error) {
-                        console.error('Error:', error);
-                        alert(`An error occurred: ${error.message}`);
-                    }
-                });
-            </script>
 
             <label for="quantity">Quantity:</label>
             <input type="number" step="0.01" id="quantity" name="quantity" required>
@@ -237,6 +111,131 @@
             <button type="submit">Save</button>
         </form>
 
+        <script>
+
+            function calculateDollarAmount() {
+                const numberInput = document.getElementById('price');
+                let value = numberInput.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+
+                if (value.length === 0) {
+                    numberInput.value = '0.00';
+                    return;
+                }
+
+                // Pad value with zeros if it's less than 3 digits
+                while (value.length < 3) {
+                    value = '0' + value;
+                }
+
+                const dollars = value.slice(0, -2);
+                const cents = value.slice(-2);
+                const formattedValue = '$'+`${parseInt(dollars)}.${cents}`;
+
+                numberInput.value = formattedValue;
+            }
+
+            // Add event listener for input change
+            document.getElementById('price').addEventListener('input', calculateDollarAmount);
+
+        </script>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('date').value = today;
+            });
+
+            async function saveData(event) {
+                event.preventDefault();
+                
+                const formData = new FormData(event.target);
+                const data = Object.fromEntries(formData.entries());
+
+                data.price = parseCurrency(data.price);
+                data.unit_price = parseCurrency(data.unit_price);
+
+                try {
+                    const response = await fetch('/api/save-item', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    const result = await response.json();
+                    alert(result.message);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert(`An error occurred: ${error.message}`);
+                }
+            }
+
+            function formatCurrency(value) {
+                // Convert number to a string formatted as currency (CAD)
+                return new Intl.NumberFormat('en-CA', { style: 'decimal', minimumFractionDigits: 2 }).format(value);
+            }
+
+            function parseCurrency(value) {
+                // Remove currency symbols and commas to parse number correctly
+                return parseFloat(value.replace(/[^0-9.-]+/g, ""));
+            }
+
+            function updateUnitPrice() {
+                // Get values from input fields
+                const price = parseCurrency(document.getElementById('price').value) || 0;
+                const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+
+                if (quantity > 0) {
+                    const unitPrice = price / quantity;
+                    document.getElementById('unit_price').value = formatCurrency(unitPrice);
+                } else {
+                    document.getElementById('unit_price').value = '';
+                }
+            }
+
+            document.getElementById('price').addEventListener('input', function(event) {
+                // Parse and format price as currency when input changes
+                const parsedPrice = parseCurrency(this.value);
+                this.value = formatCurrency(parsedPrice);
+                updateUnitPrice();
+            });
+
+            document.getElementById('quantity').addEventListener('input', updateUnitPrice);
+
+            document.getElementById('merchandizer').addEventListener('input', async function() {
+                const query = this.value;
+                if (query.length === 0) {
+                    document.getElementById('autocomplete-suggestions').innerHTML = '';
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/api/merchandizer-suggestions?query=${query}`);
+                    
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Error fetching data: ${errorText}`);
+                    }
+
+                    const suggestions = await response.json();
+                    const suggestionsDiv = document.getElementById('autocomplete-suggestions');
+                    suggestionsDiv.innerHTML = suggestions.map(suggestion => 
+                        `<div class="autocomplete-suggestion">${suggestion}</div>`
+                    ).join('');
+
+                    suggestionsDiv.querySelectorAll('.autocomplete-suggestion').forEach(item => {
+                        item.addEventListener('click', function() {
+                            document.getElementById('merchandizer').value = this.textContent;
+                            suggestionsDiv.innerHTML = '';
+                        });
+                    });
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert(`An error occurred: ${error.message}`);
+                }
+            });
+        </script>
        
     </body>
     </html>
