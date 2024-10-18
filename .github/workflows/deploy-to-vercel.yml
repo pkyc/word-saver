@@ -25,9 +25,7 @@ jobs:
     - name: Build project
       run: npm run build
 
-    - name: Check .env
-      run: cat .env
-        
+
   deploy:
     runs-on: ubuntu-latest
       
