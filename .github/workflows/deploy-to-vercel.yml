@@ -25,33 +25,15 @@ jobs:
     - name: Build project
       run: npm run build
 
-    - name: Print environment variable
-      run: | 
-        echo "The value of DB_HOST is $DB_HOST"
-        echo "The value of DB_NAME is $DB_NAME"
-
-    - name: Set up .env
-      run: |
-        echo DB_USER=${{ secrets.DB_USER }} >> .env
-        echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
-        echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-        echo DB_NAME=${{ secrets.DB_NAME }} >> .env
-        echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-
     - name: Check .env
       run: cat .env
-    
-    - name: Debug secrets
-      run: |
-        echo "DB_HOST: ${{ secrets.DB_HOST }}"
-        echo "DB_NAME: ${{ secrets.DB_NAME }}"
         
   deploy:
     runs-on: ubuntu-latest
       
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v20
@@ -60,3 +42,4 @@ jobs:
           vercel-args: '--prod --confirm'   # optional, for production deployment
           org-id: ${{ secrets.VERCEL_ORG_ID }}
           project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          
