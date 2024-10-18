@@ -28,6 +28,11 @@ jobs:
     - name: Check Node.js version
       run: node -v
     
+    - name: Connect to database
+      run: |
+        echo "Connecting to database at ${{ secrets.DB_HOST }}"
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
 
   deploy:
     runs-on: ubuntu-latest
