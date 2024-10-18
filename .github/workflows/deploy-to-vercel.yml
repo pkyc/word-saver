@@ -35,6 +35,7 @@ jobs:
         echo DB_HOST=${{ secrets.DB_HOST }} >> .env
         echo DB_NAME=${{ secrets.DB_NAME }} >> .env
         echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+        echo org-id=${{ secrets.VERCEL_ORG_ID }} >> .env
 
     - name: Check .env
       run: cat .env
