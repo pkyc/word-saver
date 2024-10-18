@@ -40,7 +40,7 @@ jobs:
         uses: amondnet/vercel-action@v20
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-args: '--prod --confirm'   # optional, for production deployment
+          vercel-args: '--prod --yes'   # optional, for production deployment
           org-id: ${{ secrets.VERCEL_ORG_ID }}
           project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           
