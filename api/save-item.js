@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
         const { item_name, price, quantity, unit_price, merchandizer, date } = req.body;
 
         try {
-            console.log('Inserting data into database...');
+            console.log('Inserting Xxxx data into database...');
             await pool.query(
                 'INSERT INTO items (name, price, quantity, unit_price, merchandizer, date) VALUES ($1, $2, $3, $4, $5, $6)',
                 [item_name, price, quantity, unit_price, merchandizer, date]
