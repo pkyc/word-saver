@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "echo 'Starting build process...' ",
-    "start": "echo 'Starting app...' "
+    "vercel-build": "env && npm run build"
   },
   "keywords": [],
   "author": "",
