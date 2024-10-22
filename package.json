@@ -2,9 +2,6 @@
   "name": "word-saver",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "vercel-build": "env && npm run build"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
