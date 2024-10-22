@@ -2,6 +2,9 @@
   "name": "word-saver",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "vercel-build": "npm install"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
