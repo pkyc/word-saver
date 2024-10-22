@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "vercel-build": "npm install",
-    "build": "npm install",
+    "build": "npm install"
   },
   "keywords": [],
   "author": "",
