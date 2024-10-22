@@ -37,9 +37,6 @@ jobs:
         echo DB_PORT=${{ secrets.DB_PORT }} >> .env
         echo org-id=${{ secrets.VERCEL_ORG_ID }} >> .env
 
-    - name: Check .env
-      run: cat .env
-
   deploy:
     runs-on: ubuntu-latest
       
