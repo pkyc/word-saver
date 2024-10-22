@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "vercel-build": "npm install"
+    "vercel-build": "npm install",
+    "build": "npm install",
   },
   "keywords": [],
   "author": "",
