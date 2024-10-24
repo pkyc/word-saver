@@ -52,3 +52,14 @@ module.exports = async (req, res) => {
         res.status(405).send('Method Not Allowed');
     }
 };
+
+async function testDatabaseConnection() {
+    try {
+      const client = await pool.connect();
+      console.log('Successfully connected to the database');
+      client.release();
+    } catch (err) {
+      console.error('Error connecting to the database:', err);
+    }
+  }<p></p>
+  
