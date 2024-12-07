@@ -141,6 +141,31 @@
         </form>
 
         <script>
+        document.getElementById('item_name').addEventListener('input', debounce(async function(e) {
+            const itemName = e.target.value.trim();
+            if (itemName.length > 0) {
+                await lookupItem(itemName);
+            }
+        }, 300)); // 300ms debounce to prevent too many API calls
+
+        // Lookup function
+        async function lookupItem(itemName) {
+            try {
+                const response = await fetch(`/api/lookup-item?name=${encodeURIComponent(itemName)}`);
+            if (!response.ok) {
+                throw new Error('Lookup failed');
+            }
+        
+            const data = await response.json();
+            if (data) {
+                populateFormFields(data);
+            }
+            } catch (error) {
+        console.error('Lookup error:', error);
+        // Optionally clear form if lookup fails
+        // clearFormFields();
+            }
+        }
 
             function calculateDollarAmount() {
                 const numberInput = document.getElementById('price');
