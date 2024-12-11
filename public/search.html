@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Records</title>
+</head>
+<body>
+  <h1>Search Price</h1>
+  <form id="search-form">
+    <label for="name">Enter Name:</label>
+    <input type="text" id="name" name="name" list="name-list" autocomplete="off" required />
+    <datalist id="name-list"></datalist>
+    <button type="submit">Search</button>
+  </form>
+  <div id="result"></div>
+  <script src="search.js"></script>
+</body>
+</html>
