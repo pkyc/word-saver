@@ -125,7 +125,7 @@
   </style>
 </head>
 <body>
-  <h1>Check Price</h1>
+  <h1>Check Price | <a href=entry.html> Enter Price </a></h1>
   <form id="search-form">
     <label for="name">Enter Name:</label>
     <div style="display: flex; gap: 5px; align-items: center;">
@@ -133,16 +133,17 @@
                id="name" 
                name="name" 
                list="name-list" 
-               autocomplete="off" 
+               autocomplete="off"
+               style="height: 34px;" 
                required />
         <button type="button" 
                 onclick="clearInput()" 
-                title="Clear input (or press Esc)">✖</button>
+                title="Clear input (or press Esc)"
+                style="height: 34px; padding: 0 10px;">✖</button>
     </div>
     <datalist id="name-list"></datalist>
     <button type="submit">Search</button>
   </form>
-  <div id="result"></div>
   <div id="result"></div>
   <script>
     // Clear input when Esc key is pressed or clear button is clicked
