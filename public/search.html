@@ -103,17 +103,61 @@
         padding: 8px;
       }
     }
+    /* Add this to your existing styles */
+    button[onclick="clearInput()"] {
+        background: #e0e0e0;
+        color: #666;
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        height: 38px; /* Match input height */
+    }
+
+    button[onclick="clearInput()"]:hover {
+        background: #d0d0d0;
+    }
+
+    /* Adjust the input container to work with flexbox */
+    form > div {
+        width: 100%;
+        margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
   <h1>Check Price</h1>
   <form id="search-form">
     <label for="name">Enter Name:</label>
-    <input type="text" id="name" name="name" list="name-list" autocomplete="off" required />
+    <div style="display: flex; gap: 5px; align-items: center;">
+        <input type="text" 
+               id="name" 
+               name="name" 
+               list="name-list" 
+               autocomplete="off" 
+               required />
+        <button type="button" 
+                onclick="clearInput()" 
+                title="Clear input (or press Esc)">✖</button>
+    </div>
     <datalist id="name-list"></datalist>
     <button type="submit">Search</button>
   </form>
   <div id="result"></div>
+  <div id="result"></div>
+  <script>
+    // Clear input when Esc key is pressed or clear button is clicked
+    document.getElementById('name').addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            clearInput();
+        }
+    });
+
+    function clearInput() {
+        const input = document.getElementById('name');
+        input.value = '';
+        input.focus();
+    }
+  </script>
   <script src="search.js"></script>
 </body>
 </html>
