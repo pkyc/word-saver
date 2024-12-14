@@ -42,13 +42,12 @@ document.getElementById('search-form').addEventListener('submit', async (event) 
                 <span>${result.name || '-'}</span>
             </div>
             <div class="record-field">
-                <label>$</label>
-                <span>${result.price || '-'}</span>
+                <strong>$ </strong> <span>${result.price || '-'}</span>
             </div>
             <div class="record-field">
                 <label>Quantity:</label>
-                <span>${result.quantity || '-'}</span
-                <span>${result.unit || '-'}</span>
+                <span>${result.quantity || '-'} </span
+                <strong><span>${result.unit || '-'} </span></strong>
             </div>
             <div class="record-field">
                 <label>Unit Price:</label>
