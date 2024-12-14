@@ -26,10 +26,11 @@
                 box-sizing: border-box;
             }
             h1 {
-                text-align: center;
+                font-size: 1.8rem;
+                color: #333;
                 margin-bottom: 20px;
-                font-weight: 500;
-                color: #424242;
+                text-align: center;
+                padding: 0 10px;
             }
             label {
                 display: block;
@@ -104,7 +105,7 @@
         </style>
     </head>
     <body>
-        <h1><a href=search.html> Check Price </a> | Enter Price </h1>
+        <h3><a href=search.html> Check Price </a> | Enter Price </h3>
         <form id="itemForm" onsubmit="saveData(event)">
             <label for="item_name">Item Name:</label>
             <input type="text" id="item_name" name="item_name" required>
