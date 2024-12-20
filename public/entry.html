@@ -150,48 +150,30 @@
             }
         }, 300)); // 300ms debounce to prevent too many API calls
 
-        // Lookup function
-        async function lookupItem(itemName) {
-            try {
-                const response = await fetch(`/api/lookup-item?name=${encodeURIComponent(itemName)}`);
-            if (!response.ok) {
-                throw new Error('Lookup failed');
+
+        function calculateDollarAmount() {
+            const numberInput = document.getElementById('price');
+            let value = numberInput.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+
+            if (value.length === 0) {
+                numberInput.value = '0.00';
+                return;
             }
-        
-            const data = await response.json();
-            if (data) {
-                populateFormFields(data);
+
+            // Pad value with zeros if it's less than 3 digits
+            while (value.length < 3) {
+                value = '0' + value;
             }
-            } catch (error) {
-        console.error('Lookup error:', error);
-        // Optionally clear form if lookup fails
-        // clearFormFields();
-            }
+
+            const dollars = value.slice(0, -2);
+            const cents = value.slice(-2);
+            const formattedValue = '$'+`${parseInt(dollars)}.${cents}`;
+
+            numberInput.value = formattedValue;
         }
 
-            function calculateDollarAmount() {
-                const numberInput = document.getElementById('price');
-                let value = numberInput.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-
-                if (value.length === 0) {
-                    numberInput.value = '0.00';
-                    return;
-                }
-
-                // Pad value with zeros if it's less than 3 digits
-                while (value.length < 3) {
-                    value = '0' + value;
-                }
-
-                const dollars = value.slice(0, -2);
-                const cents = value.slice(-2);
-                const formattedValue = '$'+`${parseInt(dollars)}.${cents}`;
-
-                numberInput.value = formattedValue;
-            }
-
-            // Add event listener for input change
-            document.getElementById('price').addEventListener('input', calculateDollarAmount);
+        // Add event listener for input change
+        document.getElementById('price').addEventListener('input', calculateDollarAmount);
 
         </script>
         

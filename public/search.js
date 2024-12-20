@@ -56,7 +56,7 @@ document.getElementById('search-form').addEventListener('submit', async (event) 
             </div>
             <div class="record-field">
                 <label>Merchandizer:</label>
-                <span>${result.Merchandizer || '-'}</span>
+                <span>${result.merchandizer || '-'}</span>
             </div>
             <div class="record-field">
                 <label>Date:</label>
