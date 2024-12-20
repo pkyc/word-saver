@@ -112,7 +112,7 @@
 
             <!-- price in Canada type-->
             <label for="price">Price:</label>
-            <input type="text" id="price" onchange="calculateDollarAmount()" name="price" required>
+            <input type="number" id="price" onchange="calculateDollarAmount()" name="price" required>
 
             <!-- Add this wrapper div around quantity and unit -->
             <div class="input-row">
@@ -156,7 +156,7 @@
             let value = numberInput.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
 
             if (value.length === 0) {
-                numberInput.value = '0.00';
+                numberInput.value = '$0.00';
                 return;
             }
 
