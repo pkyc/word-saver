@@ -112,7 +112,7 @@
 
             <!-- price in Canada type-->
             <label for="price">Price:</label>
-            <input type="text" id="price" oninput="calculateDollarAmount()" name="price" required>
+            <input type="text" id="price" oninput="calculateDollarAmount()" name="price" placeholder="0.00" required>
 
             <!-- Add this wrapper div around quantity and unit -->
             <div class="input-row">
@@ -170,6 +170,10 @@
 
             // Update the input field
             numberInput.value = formattedValue;
+
+            // Place cursor after the number, ignoring the dollar sign
+            const cursorPosition = formattedValue.length;
+            setTimeout(() => numberInput.setSelectionRange(cursorPosition, cursorPosition), 0);
         }
 
 
