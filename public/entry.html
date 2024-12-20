@@ -112,7 +112,7 @@
 
             <!-- price in Canada type-->
             <label for="price">Price:</label>
-            <input type="number" id="price" onchange="calculateDollarAmount()" name="price" required>
+            <input type="text" id="price" oninput="calculateDollarAmount()" name="price" required>
 
             <!-- Add this wrapper div around quantity and unit -->
             <div class="input-row">
@@ -153,24 +153,25 @@
 
         function calculateDollarAmount() {
             const numberInput = document.getElementById('price');
-            let value = numberInput.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+            let rawValue = numberInput.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
 
-            if (value.length === 0) {
-                numberInput.value = '$0.00';
+            if (rawValue.length === 0) {
+                numberInput.value = '$0.00'; // Default to $0.00 if empty
                 return;
             }
 
-            // Pad value with zeros if it's less than 3 digits
-            while (value.length < 3) {
-                value = '0' + value;
-            }
+            // Convert input into cents
+            const centsValue = parseInt(rawValue, 10); // Ensure numeric parsing
+            const dollars = Math.floor(centsValue / 100); // Get dollar part
+            const cents = centsValue % 100; // Get cents part
 
-            const dollars = value.slice(0, -2);
-            const cents = value.slice(-2);
-            const formattedValue = '$'+`${parseInt(dollars)}.${cents}`;
+            // Format dollars and cents
+            const formattedValue = `$${dollars}.${cents.toString().padStart(2, '0')}`;
 
+            // Update the input field
             numberInput.value = formattedValue;
         }
+
 
         // Add event listener for input change
         document.getElementById('price').addEventListener('input', calculateDollarAmount);
