@@ -123,11 +123,24 @@
                 
                 <div class="input-group">
                     <label for="unit">Unit:</label>
-                    <input type="text" id="unit" name="unit" placeholder="e.g., kg, pcs" required>
+                    <select name="unit" id="unit">
+                        <option value="kg">kg</option>
+                        <option value="gram">g</option>
+                        <option value="lb">lb</option>
+                        <option value="oz">oz</option>
+                        <option value="l">litre(L)</option>
+                        <option value="ml">millitre(mL)</option>
+                        <option value="盒">盒</option>
+                        <option value="支">支</option>
+                        <option value="樽">樽</option>
+                        <option value="罐">罐</option>
+                        <option value="包">包</option>
+                        <option value="對">對</option>
+                        <option value="卷">卷</option>
+                        <option value="粒">粒</option>
+                        </option>
                 </div>
             </div>
-
-
             <!-- Unit Price field, read-only -->
             <label for="unit_price">Unit Price:</label>
             <input type="text" id="unit_price" name="unit_price" readonly>

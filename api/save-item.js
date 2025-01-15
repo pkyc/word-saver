@@ -53,15 +53,15 @@ module.exports = async (req, res) => {
     if (req.method === 'POST') {
         console.log('Request body:', req.body);
 
-        const { item_name, price, quantity, unit_price, merchandizer, date } = req.body;
+        const { item_name, price, quantity, unit_price, unit, merchandizer, date } = req.body;
         
-        console.log('Attempting database insertion with data:', { item_name, price, quantity, unit_price, merchandizer, date });
+        console.log('Attempting database insertion with data:', { item_name, price, quantity, unit_price, unit, merchandizer, date });
 
         try {
             console.log('Inserting data into database...');
             await pool.query(
-                'INSERT INTO items (name, price, quantity, unit_price, merchandizer, date) VALUES ($1, $2, $3, $4, $5, $6)',
-                [item_name, price, quantity, unit_price, merchandizer, date]
+                'INSERT INTO items (name, price, quantity, unit_price, unit, merchandizer, date) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+                [item_name, price, quantity, unit_price, unit, merchandizer, date]
             );
             console.log('Data inserted successfully');
             res.status(201).json({ message: 'Item saved successfully' });
